@@ -60,8 +60,11 @@ def get_bigip_info(bigip, username, password):
     else:
         bip.auth = (username, password)
     versionRaw = bip.get('https://%s/mgmt/tm/sys/version/' % (bigip))
-    if versionRaw.status_code == 401:
-        print ('Couldn\'t Authenticate')
+    if versionRaw.status_code == 401 or versionRaw.status_code == 404:
+        if versionRaw.status_code == 401:
+            print ('Couldn\'t Authenticate')
+        else:
+            print ('BIG-IP too old for iControl REST')
         bigipData['hostname'] = 'unknown'
         bigipData['serialNumber'] = 'unknown'
         bigipData['marketingName'] = 'unknown'
