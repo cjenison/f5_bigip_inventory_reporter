@@ -35,7 +35,6 @@ def get_auth_token(bigip, username, password):
     payload['loginProviderName'] = 'tmos'
     authurl = 'https://%s/mgmt/shared/authn/login' % (bigip)
     authPost = authbip.post(authurl, headers=contentJsonHeader, data=json.dumps(payload))
-    print ('authPost.status_code: %s' % (authPost.status_code))
     if authPost.status_code == 404:
         print ('attempt to obtain authentication token failed; will fall back to basic authentication; remote LDAP auth will require configuration of local user account')
         token = None
